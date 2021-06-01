@@ -1,0 +1,11 @@
+@function r($px) {
+  @if $px==0 {
+    @return 0;
+  }
+  @return $px / 375 * 100vw;
+}
+@mixin ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

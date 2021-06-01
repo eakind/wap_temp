@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="browsermode" content="application">
+  <meta name="full-screen" content="yes" />
+  <meta name="x5-fullscreen" content="true" />
+  <meta name="x5-page-mode" content="app" />
+  <meta name="360-fullscreen" content="true" /> -->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+
+  <script type="text/javascript">
+    (function (designWidth, rem2Px) {
+      let doc = window.document;
+      let docEl = doc.documentElement
+      let metaEl = doc.querySelector('meta[name="viewport"]')
+      let dpr = 1
+      var scale = 1
+      let devicePixelRatio = window.devicePixelRatio
+      if (devicePixelRatio >= 3) {
+        dpr = 3
+      } else if (devicePixelRatio >= 2) {
+        dpr = 2
+      } else {
+        dpr = 1
+      }
+      scale = 1 / dpr
+      metaEl.setAttribute('content', 'width=device-width,initial-scale=' + scale + ',maximum-scale=' + scale + ',minimum-scale=' + scale + ',user-scalable=0');
+
+      function refreshRem(flag, className) {
+        let width = docEl.getBoundingClientRect().width
+        let height = window.innerHeight;//docEl.getBoundingClientRect().height
+        let curWidth = flag ? width : height
+        let orientation = flag ? 'portrait' : "landscape"
+        let htmlFontSize = (curWidth / designWidth) * rem2Px + 'px'
+        let mediaStr = '@media screen and (orientation:' + orientation + ') and (min-width:' + curWidth + 'px){html{font-size:' + htmlFontSize + '}'
+        var dpStyleEl = doc.getElementById(className);
+        if (!dpStyleEl) {
+          dpStyleEl = document.createElement('style');
+          dpStyleEl.id = className;
+          dpStyleEl.innerHTML = mediaStr;
+          docEl.firstElementChild.appendChild(dpStyleEl);
+        } else {
+          dpStyleEl.innerHTML = mediaStr;
+        }
+
+        // window.addEventListener('orientationchange', function () {
+
+        //   let flag = window.orientation === 0 ? true : false
+        //   refreshRem(flag)
+        //   // window.location.reload();
+
+        // }, false);
+
+
+        window.addEventListener('resize', function () {
+          let flag =
+            window.orientation === 0 || window.orientation === 180 ? true : false;
+          refreshRem(flag, flag ? 'portrait' : "landscape")
+        })
+      }
+
+
+      setTimeout(() => {
+        refreshRem(true, 'dpAdapt')
+      }, 1);
+
+      setTimeout(() => {
+        refreshRem(false, 'dlAdapt')
+      }, 20);
+
+
+      // return refreshRem
+
+    })(375, 100)
+
+    // window.refreshRem = refreshRem
+
+  </script>
+  <script>
+    window.onload = function () {
+      if (document.documentElement.scrollHeight <= document.documentElement.clientHeight) {
+        bodyTag = document.getElementsByTagName('body')[0];
+        bodyTag.style.height = document.documentElement.clientWidth / screen.width * screen.height + 'px';
+      }
+      setTimeout(function () {
+        window.scrollTo(0, 1)
+      }, 0);
+    }; 
+  </script>
+  <script src="./d3.v5.min.js"></script>
+  <script src='./chart.js'></script>
+  <script src="./ag-grid-community.min.js"></script>
+  <script src="./reWrite.js"></script>
+  <link rel="stylesheet" href="./ag-grid.css">
+  <link rel="stylesheet" href="./reWrite.css">
+  <script src="./l7.js"></script>
+
+</head>
+
+<body>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+
+</html>
